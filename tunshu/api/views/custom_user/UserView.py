@@ -1,13 +1,11 @@
 import json
 import logging
-import random
 
 import redis
-import requests
 from django.shortcuts import get_object_or_404
 
 from api.utils.jwt_auth import create_token
-from api.utils.serializers import book_serializer, NotificationSerializer
+from api.utils.serializers import book_serializer
 from api.utils.utils import json_res, save_or_not, fetch_avatar
 from api.utils.weixinAPIs import get_user_info
 from book.models import Book
@@ -90,7 +88,7 @@ def change_user_info(request):
     user = request.custom_user
 
     try:
-        save_or_not(user, req_data, ['nickname', 'gender', 'major', 'weixin', 'phone'])
+        save_or_not(user, req_data, ['nickname', 'major', 'weixin', 'phone'])
     except Exception as e:
         logger.error(e)
         return json_res(400, '更新用户信息失败')
