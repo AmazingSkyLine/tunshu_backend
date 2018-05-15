@@ -24,6 +24,7 @@ class Book(models.Model):
     image = models.ImageField(upload_to='book/%Y/%m/%d', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.CharField(max_length=25, null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

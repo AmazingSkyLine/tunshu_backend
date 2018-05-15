@@ -78,7 +78,6 @@ def user_info(request, user_id):
     res_dict = {
         'id': user.id,
         'nickname': user.nickname,
-        'gender': user.gender,
         'major': user.major,
         'avatarUrl': 'http://139.199.131.21' + user.avatar.url
     }
@@ -86,50 +85,17 @@ def user_info(request, user_id):
     return json_res(200, '获取用户信息成功', res_dict)
 
 
-def get_user_social(request):
-    try:
-        user = request.custom_user
-    except Exception as e:
-        logger.error(e)
-        return json_res(403, '未登录')
-    return json_res(200, '获取用户联系方式成功', {'qq': user.qq, 'weixin': user.weixin})
-
-
 def change_user_info(request):
     req_data = json.loads(request.body.decode('utf-8'))
     user = request.custom_user
 
     try:
-        save_or_not(user, req_data, ['nickname', 'gender', 'major', 'qq', 'weixin', 'phone'])
+        save_or_not(user, req_data, ['nickname', 'gender', 'major', 'weixin', 'phone'])
     except Exception as e:
         logger.error(e)
         return json_res(400, '更新用户信息失败')
 
     return json_res(200, '更新用户信息成功')
-
-
-def send_code(request):
-    phone = request.GET.get('phone', None)
-    if not phone:
-        return json_res(400, '缺少参数')
-
-    # 生成验证码并保存至redis
-    validate_code = ''
-    for i in range(6):
-        validate_code += str(random.randint(0, 9))
-
-    redis_service.set(phone, validate_code, ex=60)
-
-    api_url = 'http://v.juhe.cn/sms/send'
-    app_key = 'dc192fa7c88ab7062dbd981187fd20a9'
-    payload = {'mobile': phone, 'tpl_id': 66702,
-               'tpl_value': '#code#=%s' % validate_code,
-               'key': app_key}
-    r = requests.get(api_url, params=payload)
-    if r.json().get('result'):
-        return json_res(200, '验证码发送成功')
-    else:
-        return json_res(400, '验证码发送失败')
 
 
 def get_user_books(request):
@@ -138,19 +104,3 @@ def get_user_books(request):
 
     res_dict = book_serializer(books)
     return json_res(200, '获取用户书架成功', res_dict)
-
-
-def show_user_sent_notify(request):
-    user = request.custom_user
-
-    res_data = NotificationSerializer(user.sent_notify, many=True).data
-
-    return json_res(200, '获取用户发送信息成功', res_data)
-
-
-def show_user_received_notify(request):
-    user = request.custom_user
-
-    res_data = NotificationSerializer(user.received_notify, many=True).data
-
-    return json_res(200, '获取用户接收信息成功', res_data)

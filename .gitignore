@@ -12,5 +12,5 @@ media/
 log/
 __pycache__/
 *_initial.py
-
+static/
 

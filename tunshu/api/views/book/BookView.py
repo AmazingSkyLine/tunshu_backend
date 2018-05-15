@@ -7,7 +7,6 @@ from api.utils.utils import json_res, save_or_not
 from book.models import Book, Category
 from custom_user.models import User
 from ..custom_user.UserView import redis_service
-import json
 
 import logging
 
@@ -39,7 +38,7 @@ class BookDetailView(APIView):
             book.image = image
 
         try:
-            save_or_not(book, req_data, ['name', 'price', 'original_price', 'category_id'])
+            save_or_not(book, req_data, ['name', 'price', 'original_price', 'category_id', 'description'])
         except Exception as e:
             logger.error(e)
             return json_res(400, '编辑书籍信息失败')
@@ -77,7 +76,7 @@ def create_book_info(request):
     try:
         new_book = Book.objects.create(name=req_data['name'], price=req_data['price'],
                                        original_price=req_data['original_price'], owner=request.custom_user,
-                                       category_id=category_id)
+                                       category_id=category_id, description=req_data['description'])
         new_book.image = image
         new_book.save()
     except Exception as e:

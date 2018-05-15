@@ -19,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '63clyqf#^lh-y$0n7&=5kny%(3u-a5vmu7y4qfdof+)&=9hc8o'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['139.199.131.21', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'api',
     'book',
     'rest_framework',
-    'message', 
 ]
 
 MIDDLEWARE = [
@@ -81,9 +80,9 @@ WSGI_APPLICATION = 'tunshu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tunshu',
-        'USER': 'web-server',
-        'PASSWORD': 'tunshu666.B',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': '',
         'PORT': '',
     }
@@ -147,18 +146,6 @@ NEED_AUTH_URL = [r'/api/user/change/phone/',
                  r'/api/user/sent_notify/']
 
 POST_NEED_AUTH_URL = [r'/api/book/[\d+]/']
-
-
-ASGI_APPLICATION = "tunshu.routing.application"
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('localhost', 6379)],
-        },
-    },
-}
 
 
 LOGGING = {
