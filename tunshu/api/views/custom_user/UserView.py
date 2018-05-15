@@ -47,7 +47,6 @@ def wx_login(request):
 
     if not user:
         nickname = user_info.get('nickName', None)
-        gender = user_info.get('gender', None)
         avatarUrl = user_info.get('avatarUrl', None)
 
         try:
