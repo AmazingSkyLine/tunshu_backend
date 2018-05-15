@@ -1,0 +1,17 @@
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+*.ini
+*.log
+.idea/
+media/
+*.txt
+log/
+__pycache__/
+/migrations/*.py
+!__init__.py
+
+
