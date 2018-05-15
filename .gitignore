@@ -6,11 +6,11 @@ dist
 build
 *.ini
 *.log
-/.idea/
-/media/
+.idea/
+media/
 *.txt
-/log/
-/__pycache__/
-/migrations/*
+log/
+__pycache__/
+migrations/*
 
 
