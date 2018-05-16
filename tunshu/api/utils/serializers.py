@@ -21,7 +21,7 @@ def book_serializer(books):
     book_list = []
     for book in books:
         book_list.append({'id': book.id, 'name': book.name, 'image': 'http://139.199.131.21' + book.image.url,
-                          'detail_url': 'http://139.199.131.21/api/book/{}'.format(book.id), 'qq': book.owner.qq,
+                          'detail_url': 'http://139.199.131.21/api/book/{}'.format(book.id), 
                           'weixin': book.owner.weixin, 'original_price': book.original_price, 'price': book.price,
                           'description': book.description})
     res_dict = {'books': book_list}
