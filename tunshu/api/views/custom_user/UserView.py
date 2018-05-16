@@ -3,6 +3,7 @@ import logging
 
 import redis
 from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
 
 from api.utils.jwt_auth import create_token
 from api.utils.serializers import book_serializer
@@ -20,6 +21,7 @@ redis_service = redis.StrictRedis(host=settings.REDIS_HOST,
                                   decode_responses=True)
 
 
+@require_POST
 def wx_login(request):
     """
     微信登录接口, 需要提供code, encryptedData, iv
@@ -51,8 +53,7 @@ def wx_login(request):
 
         try:
             user = User.objects.create(
-                nickname=nickname, gender=gender,
-                openid=openid)
+                nickname=nickname, openid=openid)
             
             fetch_avatar(avatarUrl, user)
             user.save()

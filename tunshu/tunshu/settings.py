@@ -136,14 +136,9 @@ REDIS_PORT = 6379
 REDIS_DB = 1
 
 # auth middleware url
-NEED_AUTH_URL = [r'/api/user/change/phone/',
-                 r'/api/book/',
-                 r'/api/user/books/',
+NEED_AUTH_URL = [r'/api/book/',
                  r'/api/user/',
-                 r'/api/user/books/',
-                 r'/api/user/social/', 
-                 r'/api/user/received_notify/',
-                 r'/api/user/sent_notify/']
+                 r'/api/user/books/']
 
 POST_NEED_AUTH_URL = [r'/api/book/[\d+]/']
 
