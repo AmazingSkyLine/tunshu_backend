@@ -1,6 +1,7 @@
 import json
 import logging
 
+import jwt
 import redis
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
@@ -102,3 +103,21 @@ def get_user_books(request):
 
     res_dict = book_serializer(books)
     return json_res(200, '获取用户书架成功', res_dict)
+
+
+def user_auth(request):
+    jwt_token = request.META.get('HTTP_AUTHORIZATION', None)
+    try:
+        data = jwt.decode(jwt_token, 'secret', algorithm='HS256')
+    except Exception as e:
+        logger.error(e, jwt_token)
+        return json_res(403, '认证失败')
+
+    # if get token then user must exist
+    try:
+        user = User.objects.get(id=data['sub'])
+    except Exception as e:
+        logger.error(e)
+        return json_res(403, '用户不存在')
+
+    return json_res(200, 'Confirmed')
