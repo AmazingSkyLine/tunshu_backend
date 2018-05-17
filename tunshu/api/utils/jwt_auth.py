@@ -9,5 +9,5 @@ def create_token(user_id):
         'exp': time.time() + 86400 * 7,
         'sub': user_id
     }
-    jwt_token = jwt.encode(payload, 'secret', algorithm='HS256')
+    jwt_token = jwt.encode(payload, 'secret', algorithm='HS256').decode('utf8')
     return jwt_token

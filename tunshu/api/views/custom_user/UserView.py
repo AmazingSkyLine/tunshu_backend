@@ -62,7 +62,7 @@ def wx_login(request):
             logger.error(e)
             return json_res(400, '用户创建失败')
 
-    jwt_token = str(create_token(user.id))[2:-1]
+    jwt_token = create_token(user.id)
     data = {'jwt_token': jwt_token, 'user_id': user.id,
             'detail_url': 'http://139.199.131.21/api/user/{}/'.format(user.id),
             'avatarUrl': 'http://139.199.131.21' + user.avatar.url,
@@ -110,7 +110,7 @@ def user_auth(request):
     try:
         data = jwt.decode(jwt_token, 'secret', algorithm='HS256')
     except Exception as e:
-        logger.error(e, jwt_token)
+        logger.error(jwt_token, error=e)
         return json_res(403, '认证失败')
 
     # if get token then user must exist
