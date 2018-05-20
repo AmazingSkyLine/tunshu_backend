@@ -45,7 +45,7 @@ def wx_login(request):
     try:
         user = User.objects.get(openid=openid)
     except Exception as e:
-        logger.error(e)
+        logger.error(e, 'Automatically create a new account.')
         user = None
 
     if not user:
@@ -120,4 +120,10 @@ def user_auth(request):
         logger.error(e)
         return json_res(403, '用户不存在')
 
-    return json_res(200, 'Confirmed')
+    new_token = create_token(data['sub'])
+
+    has_weixin = False
+    if user.weixin:
+        has_weixin = True
+
+    return json_res(200, 'Confirmed', {'jwt_token': new_token, 'has_weixin': has_weixin})
