@@ -37,7 +37,7 @@ class AuthMiddleware(MiddlewareMixin):
             try:
                 data = jwt.decode(jwt_token, 'secret', algorithm='HS256')
             except Exception as e:
-                logger.error(jwt_token, error=e)
+                logger.error(e, jwt_token)
                 return json_res(403, '认证失败')
 
             # if get token then user must exist
