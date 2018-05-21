@@ -3,11 +3,8 @@ from weixin.lib.wxcrypt import WXBizDataCrypt
 
 from custom_user.models import User
 
-# WXAPP_APPID = 'wx254cb80467cf063e'
-# WXAPP_SECRET = 'ad1f268509dff83d0876f644a084a4ac'
-
-WXAPP_APPID = 'wx819f705f69fc723a'
-WXAPP_SECRET = 'ccc3a874534f13f1c68150d1dc5b4ce9'
+WXAPP_APPID = ''
+WXAPP_SECRET = ''
 
 api = WXAPPAPI(appid=WXAPP_APPID, app_secret=WXAPP_SECRET)
 
