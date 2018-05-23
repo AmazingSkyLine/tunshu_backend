@@ -33,7 +33,7 @@ class AuthMiddleware(MiddlewareMixin):
 
         if is_need_auth:
             # if authenticated, add custom_user to request
-            jwt_token = request.META.get('HTTP_AUTHORIZATION', None)
+            jwt_token = request.META.get('HTTP_AUTHORIZATION', None).encode('utf8')
             try:
                 data = jwt.decode(jwt_token, 'secret', algorithm='HS256')
             except Exception as e:

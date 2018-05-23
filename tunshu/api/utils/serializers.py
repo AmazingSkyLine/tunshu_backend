@@ -18,6 +18,9 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 def book_serializer(books):
+    if not books:
+        return None
+
     book_list = []
     for book in books:
         book_list.append({'id': book.id, 'name': book.name, 'image': 'http://139.199.131.21' + book.image.url,
