@@ -19,7 +19,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 def book_serializer(books):
     if not books:
-        return None
+        return {'books': None}
 
     book_list = []
     for book in books:

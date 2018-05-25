@@ -48,6 +48,13 @@ class BookDetailView(APIView):
         book = get_object_or_404(Book, pk=pk)
 
         try:
+            # 删除或减少redis中推荐排行的键值
+            num = int(redis_service.zscore('user_ranking', book.owner.id))
+            if num == 1:
+                redis_service.zrem('user_ranking', book.owner.id)
+            else:
+                redis_service.zincrby('user_ranking', book.owner.id, -1)
+
             book.delete()
         except Exception as e:
             logger.error(e)
@@ -122,7 +129,12 @@ def book_search(request):
 def book_advice(request):
 
     # 基于用户发布的书籍量和时间对书籍进行推荐，　发布书越多的用户，会取其最新发布的一本书作为推荐
-    user_ranking = redis_service.zrange('user_ranking', 0, -1, desc=True)[:5]
+    try:
+        user_ranking = redis_service.zrange('user_ranking', 0, -1, desc=True)[:5]
+    except Exception as e:
+        logger.error(e)
+        return json_res(400, '无人传书', {'books': None})
+
     user_ranking_ids = [int(id) for id in user_ranking]
     most_offer = list(User.objects.filter(id__in=user_ranking_ids))
 
