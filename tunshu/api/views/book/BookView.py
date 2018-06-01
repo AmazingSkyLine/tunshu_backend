@@ -31,6 +31,10 @@ class BookDetailView(APIView):
 
     def post(self, request, pk):
         book = get_object_or_404(Book, pk=pk)
+
+        if book.owner != request.custom_user:
+            return json_res(403, "用户认证失败")
+
         req_data = request.POST
 
         image = request.FILES.get('img', None)
@@ -46,6 +50,9 @@ class BookDetailView(APIView):
 
     def delete(self, request, pk):
         book = get_object_or_404(Book, pk=pk)
+
+        if book.owner != request.custom_user:
+            return json_res(403, "用户认证失败")
 
         try:
             # 删除或减少redis中推荐排行的键值
