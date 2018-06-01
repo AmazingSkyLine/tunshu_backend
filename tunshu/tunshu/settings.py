@@ -140,7 +140,7 @@ NEED_AUTH_URL = [r'/api/book/',
                  r'/api/user/',
                  r'/api/user/books/']
 
-POST_NEED_AUTH_URL = [r'/api/book/[\d+]/']
+POST_NEED_AUTH_URL = [r'/api/book/\d+/']
 
 
 LOGGING = {
